@@ -1,8 +1,10 @@
-package com.alvesgleibson.messageappfamily;
+package com.alvesgleibson.messageappfamily.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.alvesgleibson.messageappfamily.R;
 
 public class MainActivity extends AppCompatActivity {
 

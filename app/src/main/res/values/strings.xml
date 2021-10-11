@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MessageAppFamily</string>
+    <string name="digiteEmail">Digite seu Email</string>
+    <string name="digSenha">Digite sua senha</string>
+    <string name="bLogar">Logar</string>
+    <string name="txtCadastrar">Não tem conta? Cadastre-se</string>
 </resources>
