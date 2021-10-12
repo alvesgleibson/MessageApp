@@ -25,7 +25,7 @@
             app:srcCompat="@drawable/usuario" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/txtCadastroName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -37,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress2"
+            android:id="@+id/txtCadastroEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -46,7 +46,7 @@
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/editTextTextPassword2"
+            android:id="@+id/txtCadastroSenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -57,7 +57,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextPassword3"
+            android:id="@+id/txtCadastroConfirmarSenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -69,6 +69,7 @@
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="cadastrarUsuarioFirebase"
             android:text="@string/cadastro_bt_cadastrar" />
 
     </LinearLayout>
