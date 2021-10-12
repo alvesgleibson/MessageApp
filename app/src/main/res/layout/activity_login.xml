@@ -20,8 +20,8 @@
         app:srcCompat="@drawable/logo" />
 
     <LinearLayout
-        android:layout_width="332dp"
-        android:layout_height="193dp"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:foregroundGravity="center"
@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/digiteEmail"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/editTextTextPassword"
@@ -47,6 +48,7 @@
             android:ems="10"
             android:hint="@string/digSenha"
             android:inputType="textPassword"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -60,9 +62,23 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:onClick="cadastroTxt"
             android:text="@string/txtCadastrar"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/swtSalvarLoginSenha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minHeight="48dp"
+            android:text="@string/salvar_loginesenha"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

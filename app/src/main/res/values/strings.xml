@@ -4,4 +4,10 @@
     <string name="digSenha">Digite sua senha</string>
     <string name="bLogar">Logar</string>
     <string name="txtCadastrar">Não tem conta? Cadastre-se</string>
+    <string name="salvar_loginesenha">Deseja salvar login e senha? </string>
+    <string name="cadastro_nome">Digite seu nome</string>
+    <string name="cadastro_email">Digite seu email</string>
+    <string name="cadastro_senha">Digite sua senha</string>
+    <string name="cadastro_repitir_senha">Confirme sua senha</string>
+    <string name="cadastro_bt_cadastrar">Cadastrar</string>
 </resources>
