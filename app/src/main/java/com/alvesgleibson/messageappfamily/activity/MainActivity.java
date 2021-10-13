@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_sair:
                 deslogarUser();
+                finish();
                 break;
 
         }
@@ -62,8 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void deslogarUser() {
 
-        auth.signOut();
-        finish();
+        try {
+            auth.signOut();
+        }catch (Exception e){
+            Toast.makeText(this, "Erro ao sair "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
 
     }
 
