@@ -89,7 +89,7 @@ public class CadastroActivity extends AppCompatActivity {
                 }catch (FirebaseAuthUserCollisionException e ){
                     msgError = "Email já existe Firebase";
                 }catch (Exception e ){
-                    msgError = "Erro ao Cadastrar Usuario Firebase";
+                    msgError = "Erro ao Cadastrar Usuario Firebase " + e.getMessage();
                     e.printStackTrace();
                 }
 
