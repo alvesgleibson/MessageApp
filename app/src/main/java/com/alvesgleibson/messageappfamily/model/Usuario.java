@@ -6,9 +6,8 @@ import com.google.firebase.database.Exclude;
 
 public class Usuario {
 
-    private String name, email, password;
-    @Exclude
-    private String idCode;
+    private String name, email, password, idCode;
+
 
     public Usuario(String name, String email, String password) {
         this.name = name;
@@ -40,6 +39,7 @@ public class Usuario {
         this.email = email;
     }
 
+    @Exclude
     public String getPassword() {
         return password;
     }
@@ -48,6 +48,7 @@ public class Usuario {
         this.password = password;
     }
 
+    @Exclude
     public String getIdCode() {
         return idCode;
     }

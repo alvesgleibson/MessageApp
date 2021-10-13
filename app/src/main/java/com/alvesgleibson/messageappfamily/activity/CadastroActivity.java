@@ -1,10 +1,7 @@
 package com.alvesgleibson.messageappfamily.activity;
 
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -24,7 +21,6 @@ public class CadastroActivity extends AppCompatActivity {
     private EditText txtNome, txtEmail, txtSenha,txtConfirmeSenha;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +33,6 @@ public class CadastroActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void cadastrarUsuarioFirebase(View view){
 
         String nome = txtNome.getText().toString();
@@ -50,7 +45,6 @@ public class CadastroActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void isCheckFieldInput(String nome, String email, String senha, String confSenha) {
 
         if (!nome.isEmpty()){
@@ -69,11 +63,11 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private void createUserFirebase(Usuario user) {
         FirebaseAuth auth = SettingInstanceFirebase.getInstanceFirebaseAuth();
 
-        auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(x ->{
+        auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(this, x ->{
 
             if (x.isSuccessful()){
 
@@ -105,10 +99,6 @@ public class CadastroActivity extends AppCompatActivity {
 
 
         });
-
-
-
-
 
 
 
