@@ -11,8 +11,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.alvesgleibson.messageappfamily.R;
+import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAuth auth = SettingInstanceFirebase.getInstanceFirebaseAuth();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +52,20 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Configuração", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_sair:
-                Toast.makeText(this, "Sair", Toast.LENGTH_SHORT).show();
+                deslogarUser();
                 break;
 
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void deslogarUser() {
+
+        auth.signOut();
+        finish();
+
+    }
+
+
 }
