@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -77,9 +78,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_pesquisa:
                 Toast.makeText(this, "Pesquisa", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.menu_conficuracao:
-                Toast.makeText(this, "Configuração", Toast.LENGTH_SHORT).show();
+                startActivity( new Intent(this, ConfiguracoesActivity.class));
                 break;
+
             case R.id.menu_sair:
                 deslogarUser();
                 finish();
