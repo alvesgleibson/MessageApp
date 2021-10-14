@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.alvesgleibson.messageappfamily.R;
+import com.alvesgleibson.messageappfamily.helper.SharedPre;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -17,7 +19,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText txtEmail, txtSenha;
-    FirebaseAuth auth = SettingInstanceFirebase.getInstanceFirebaseAuth();
+    private FirebaseAuth auth = SettingInstanceFirebase.getInstanceFirebaseAuth();
+    private SharedPre mySharedPre;
+    private Switch aSwitchSalvarSenha;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,22 +31,50 @@ public class LoginActivity extends AppCompatActivity {
 
         txtEmail = findViewById(R.id.txtLoginEmail);
         txtSenha = findViewById(R.id.txtLoginPassword);
+        aSwitchSalvarSenha = findViewById(R.id.swtSalvarLoginSenha);
+
+        mySharedPre  = new SharedPre(getApplicationContext());
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         usuarioLogado();
+        salvarSenhaSharedPreference();
+
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (!aSwitchSalvarSenha.isChecked()){
+            mySharedPre.limparSPLogin();
+        }
+    }
+
+    private void salvarSenhaSharedPreference() {
+        String valoresSharedPreference[] =  mySharedPre.recoverSP();
+
+            if (!valoresSharedPreference[0].equals("")) {
+                txtEmail.setText(valoresSharedPreference[0]);
+                txtSenha.setText(valoresSharedPreference[1]);
+                aSwitchSalvarSenha.setChecked(true);
+            }else {
+                aSwitchSalvarSenha.setChecked(false);
+                txtEmail.setText("");
+                txtSenha.setText("");
+            }
+
+        }
+
 
     private void usuarioLogado() {
 
         if (auth.getCurrentUser() != null){
             startActivity( new Intent(this, MainActivity.class));
         }
-
 
     }
 
@@ -68,9 +101,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginUsuario(String email, String senha) {
 
+
         auth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(this, x ->{
 
             if (x.isSuccessful()){
+
+                //gravar o email e senha no SharedPreference se o switch estiver ativado
+                if (aSwitchSalvarSenha.isChecked()){
+                    mySharedPre.SaveSP(email, senha);
+                }else {
+                    mySharedPre.limparSPLogin();
+                }
+
 
                 startActivity( new Intent(this, MainActivity.class));
 
@@ -94,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 
 
     public void cadastroTxt(View view){
