@@ -13,4 +13,6 @@
     <string name="menu_pesquisa">Pesquisar</string>
     <string name="menu_configuracao">Configuração</string>
     <string name="menu_sair">Sair</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
