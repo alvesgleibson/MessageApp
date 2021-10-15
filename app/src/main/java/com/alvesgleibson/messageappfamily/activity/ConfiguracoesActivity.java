@@ -3,12 +3,15 @@ package com.alvesgleibson.messageappfamily.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,6 +28,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             Manifest.permission.CAMERA
     };
 
+    private ImageView ivPerfil;
     private ImageButton imCamera, imGaleria;
     private static final int SELECAO_CAMERA = 100;
     private static final int SELECAO_GALERIA = 200;
@@ -36,6 +40,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
         imCamera = findViewById(R.id.imCamera);
         imGaleria = findViewById(R.id.imGaleria);
+        ivPerfil = findViewById(R.id.circleImageViewFotoPerfil);
 
 
         acessarCamera();
@@ -78,6 +83,49 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK){
+
+            Bitmap bitmapImagens = null;
+
+            try {
+
+                switch ( requestCode ){
+
+                    case SELECAO_CAMERA:
+
+                        bitmapImagens = (Bitmap) data.getExtras().get("data");
+
+                        if (bitmapImagens != null){
+                            ivPerfil.setImageBitmap( bitmapImagens );
+                        }
+
+                        break;
+
+                    case SELECAO_GALERIA:
+
+                        Uri uriImagem = data.getData();
+                        bitmapImagens = MediaStore.Images.Media.getBitmap( getContentResolver(), uriImagem);
+
+                        if (bitmapImagens != null){
+                            ivPerfil.setImageBitmap( bitmapImagens );
+                        }
+                        break;
+                }
+
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }
 
     //Tratar Permissões negada
     @Override
