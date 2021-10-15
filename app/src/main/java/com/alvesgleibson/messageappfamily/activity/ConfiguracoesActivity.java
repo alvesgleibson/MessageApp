@@ -1,9 +1,11 @@
 package com.alvesgleibson.messageappfamily.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
+import android.provider.MediaStore;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 
@@ -14,20 +16,30 @@ import androidx.appcompat.widget.Toolbar;
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.helper.MyPermission;
 
+
+
 public class ConfiguracoesActivity extends AppCompatActivity {
 
     private String[] permissionRequired = new String[]{
-
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
-
     };
 
+    private ImageButton imCamera, imGaleria;
+    private static final int SELECAO_CAMERA = 100;
+    private static final int SELECAO_GALERIA = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracoes);
+
+        imCamera = findViewById(R.id.imCamera);
+        imGaleria = findViewById(R.id.imGaleria);
+
+
+        acessarCamera();
+        acessarGaleria();
 
         //Validar Permissões
         MyPermission.validarPermissao( permissionRequired , this, 1);
@@ -41,8 +53,31 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    }
+
+    private void acessarCamera() {
+        imCamera.setOnClickListener(view -> {
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intent.resolveActivity(getPackageManager()) != null){
+                startActivityForResult(intent, SELECAO_CAMERA);
+            }
+
+        });
 
     }
+
+    private void acessarGaleria() {
+        imGaleria.setOnClickListener( view ->{
+
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            if (intent.resolveActivity(getPackageManager()) != null){
+                startActivityForResult(intent, SELECAO_GALERIA);
+            }
+
+        });
+    }
+
 
     //Tratar Permissões negada
     @Override
@@ -62,7 +97,6 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
         }
 
-
     }
 
     private void alertaValidacaoPermissao() {
@@ -78,4 +112,6 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         builder.create().show();
 
     }
+
 }
+
