@@ -20,8 +20,7 @@
         <activity
             android:name=".activity.ConfiguracoesActivity"
             android:exported="false"
-            android:parentActivityName=".activity.MainActivity"
-            />
+            android:parentActivityName=".activity.MainActivity"/>
         <activity
             android:name=".activity.CadastroActivity"
             android:exported="true" />

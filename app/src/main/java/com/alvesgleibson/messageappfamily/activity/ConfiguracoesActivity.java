@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +19,15 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.helper.MyPermission;
+import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
+import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 
 
 public class ConfiguracoesActivity extends AppCompatActivity {
@@ -32,6 +41,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     private ImageButton imCamera, imGaleria;
     private static final int SELECAO_CAMERA = 100;
     private static final int SELECAO_GALERIA = 200;
+    private String idUsuario;
+    private StorageReference storageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +53,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         imCamera = findViewById(R.id.imCamera);
         imGaleria = findViewById(R.id.imGaleria);
         ivPerfil = findViewById(R.id.circleImageViewFotoPerfil);
+
+        idUsuario = UsuarioFirebase.getIdentificadorUsuario();
+        storageReference = SettingInstanceFirebase.getStorageReference();
 
 
         acessarCamera();
@@ -102,6 +117,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
                         if (bitmapImagens != null){
                             ivPerfil.setImageBitmap( bitmapImagens );
+                            salvarImagemFirebase(bitmapImagens);
                         }
 
                         break;
@@ -113,6 +129,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
                         if (bitmapImagens != null){
                             ivPerfil.setImageBitmap( bitmapImagens );
+                            salvarImagemFirebase(bitmapImagens);
                         }
                         break;
                 }
@@ -123,6 +140,36 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             }
 
         }
+
+
+    }
+
+    private void salvarImagemFirebase(Bitmap bitmapImagens) {
+
+        //Recuperar dados da imagem para Firebase
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmapImagens.compress(Bitmap.CompressFormat.JPEG, 75, baos);
+
+        byte[] dadosImagem = baos.toByteArray();
+
+
+        //Salvar imagem no Firebase
+        StorageReference referenceImagem = storageReference
+                .child("imagens")
+                .child("perfil")
+                .child( idUsuario+".jpeg" );
+
+
+        UploadTask uploadTask = referenceImagem.putBytes( dadosImagem );
+
+        //Teste Upload
+        uploadTask.addOnFailureListener(e ->  {
+            Toast.makeText(this, "Erro ao realizar o Upload da Imagem", Toast.LENGTH_SHORT).show();
+        }).addOnSuccessListener(taskSnapshot -> {
+            Toast.makeText(this, "Imagem Upload com sucesso", Toast.LENGTH_SHORT).show();
+        });
+
+
 
 
     }
