@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,9 +21,12 @@ import androidx.appcompat.widget.Toolbar;
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.helper.MyPermission;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
+import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -61,6 +65,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         acessarCamera();
         acessarGaleria();
 
+        //Recuperar dados usuarios
+        recuperarDadosUsuarioFirebase();
+
         //Validar Permissões
         MyPermission.validarPermissao( permissionRequired , this, 1);
 
@@ -72,6 +79,18 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         //Adicionando o botão Voltar na Toolbar
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    private void recuperarDadosUsuarioFirebase() {
+
+        FirebaseUser firebaseUser = UsuarioFirebase.getUsuarioAtual();
+        Uri url = firebaseUser.getPhotoUrl();
+        if (url != null){
+            Glide.with(this).load( url ).into( ivPerfil );
+        }else{
+            ivPerfil.setImageResource( R.drawable.padrao);
+        }
 
     }
 
@@ -167,11 +186,21 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             Toast.makeText(this, "Erro ao realizar o Upload da Imagem", Toast.LENGTH_SHORT).show();
         }).addOnSuccessListener(taskSnapshot -> {
             Toast.makeText(this, "Imagem Upload com sucesso", Toast.LENGTH_SHORT).show();
+
+            //Obtendo a Uri da imagem para atualizar a foto
+            referenceImagem.getDownloadUrl().addOnCompleteListener(task -> {
+               Uri url = task.getResult();
+               //Metodo
+               atualizarFotoUsuario(url);
+            });
+
         });
 
 
+    }
 
-
+    private void atualizarFotoUsuario(Uri url) {
+        UsuarioFirebase.atualizarFotoUsuarioMetodoClass( url );
     }
 
     //Tratar Permissões negada
