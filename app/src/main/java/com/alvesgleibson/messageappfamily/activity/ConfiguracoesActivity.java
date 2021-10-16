@@ -47,6 +47,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     private static final int SELECAO_GALERIA = 200;
     private String idUsuario;
     private StorageReference storageReference;
+    private EditText txtPerfil;
 
 
     @Override
@@ -57,6 +58,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         imCamera = findViewById(R.id.imCamera);
         imGaleria = findViewById(R.id.imGaleria);
         ivPerfil = findViewById(R.id.circleImageViewFotoPerfil);
+        txtPerfil = findViewById(R.id.txtUsuarioNomePerfil);
 
         idUsuario = UsuarioFirebase.getIdentificadorUsuario();
         storageReference = SettingInstanceFirebase.getStorageReference();
@@ -82,6 +84,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
     }
 
+
+
     private void recuperarDadosUsuarioFirebase() {
 
         FirebaseUser firebaseUser = UsuarioFirebase.getUsuarioAtual();
@@ -91,6 +95,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         }else{
             ivPerfil.setImageResource( R.drawable.padrao);
         }
+
+        txtPerfil.setText( firebaseUser.getDisplayName() );
+
 
     }
 

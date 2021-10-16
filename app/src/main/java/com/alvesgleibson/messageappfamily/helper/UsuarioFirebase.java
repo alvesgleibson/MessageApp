@@ -37,6 +37,26 @@ public class UsuarioFirebase {
 
     }
 
+    public static boolean atualizarNomePerfilUsuario(String nomePerfil){
+
+        try {
+            FirebaseUser user = getUsuarioAtual();
+            UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName( nomePerfil ).build();
+            user.updateProfile( userProfileChangeRequest ).addOnCompleteListener( task -> {
+                if (!task.isSuccessful()){
+                    Log.d("Perfil", "Erro ao atualizar Nome Perfil");
+                }
+            });
+            return true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+
 
 
 }

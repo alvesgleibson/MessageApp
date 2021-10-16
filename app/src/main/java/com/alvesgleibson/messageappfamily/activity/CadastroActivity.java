@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.helper.Base64Costum;
+import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,6 +77,7 @@ public class CadastroActivity extends AppCompatActivity {
                 user.salvarUsuario();
                 finish();
                 Toast.makeText(this, "Usuario "+user.getName()+" cadastrado com sucesso", Toast.LENGTH_LONG).show();
+                UsuarioFirebase.atualizarNomePerfilUsuario( user.getName() );
             }else {
 
                 String msgError = "";
