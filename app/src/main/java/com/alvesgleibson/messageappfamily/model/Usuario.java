@@ -1,13 +1,19 @@
 package com.alvesgleibson.messageappfamily.model;
 
+import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Usuario {
 
-    private String name, email, password, idCode;
+    private String name, email, password, idCode, foto;
 
+    public Usuario(){
+    }
 
     public Usuario(String name, String email, String password) {
         this.name = name;
@@ -22,6 +28,37 @@ public class Usuario {
 
     }
 
+    public void atualizarUsuario(){
+
+        String identificadorUsuario = UsuarioFirebase.getIdentificadorUsuario();
+        DatabaseReference reference = SettingInstanceFirebase.getDatabaseReference();
+
+        DatabaseReference usuarioReference =  reference.child("Users").child( identificadorUsuario );
+
+        Map<String, Object> usuarioJaConvertido = converterParaMap();
+
+        usuarioReference.updateChildren( usuarioJaConvertido );
+
+    }
+
+    @Exclude
+    public Map<String, Object> converterParaMap(){
+
+        HashMap<String, Object> usuarioMap = new HashMap<>();
+        usuarioMap.put("email", getEmail());
+        usuarioMap.put("name", getName());
+        usuarioMap.put("foto", getFoto());
+        return  usuarioMap;
+
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     public String getName() {
         return name;

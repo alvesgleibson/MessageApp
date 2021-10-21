@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,6 +51,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private EditText txtPerfil;
 
+    private Usuario usuarioLogadoParaAtualizar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,11 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         acessarCamera();
         acessarGaleria();
 
+        //Usuario logado para atualizar
+        usuarioLogadoParaAtualizar = UsuarioFirebase.getDadosUsuarioLogado();
+
+
+
         //Recuperar dados usuarios
         recuperarDadosUsuarioFirebase();
 
@@ -84,6 +93,23 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
     }
 
+    public void alterarNomeUsuarioConfiguracao(View view){
+        FirebaseUser firebaseUser = UsuarioFirebase.getUsuarioAtual();
+
+        String nomeUsuario = txtPerfil.getText().toString();
+
+
+        if (!nomeUsuario.isEmpty()){
+            if (!nomeUsuario.equals(firebaseUser.getDisplayName())){
+
+                    usuarioLogadoParaAtualizar.setName( nomeUsuario );
+                    usuarioLogadoParaAtualizar.atualizarUsuario();
+                    Toast.makeText(this, "Nome perfil atualizado com sucesso", Toast.LENGTH_SHORT).show();
+
+            }else Toast.makeText(this, "Nada para alterar", Toast.LENGTH_SHORT).show();
+        }else Toast.makeText(this, "Nome do usuário não pode ser vazio", Toast.LENGTH_SHORT).show();
+
+    }
 
 
     private void recuperarDadosUsuarioFirebase() {
@@ -207,7 +233,13 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     }
 
     private void atualizarFotoUsuario(Uri url) {
-        UsuarioFirebase.atualizarFotoUsuarioMetodoClass( url );
+        boolean veri = UsuarioFirebase.atualizarFotoUsuarioMetodoClass( url );
+        if (veri){
+            usuarioLogadoParaAtualizar.setFoto( url.toString() );
+            usuarioLogadoParaAtualizar.atualizarUsuario();
+            Toast.makeText(this, "Imagem atualizada com sucesso", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     //Tratar Permissões negada

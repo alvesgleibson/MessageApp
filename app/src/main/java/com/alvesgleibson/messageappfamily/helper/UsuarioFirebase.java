@@ -2,7 +2,10 @@ package com.alvesgleibson.messageappfamily.helper;
 
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.alvesgleibson.messageappfamily.activity.ConfiguracoesActivity;
+import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -12,7 +15,7 @@ public class UsuarioFirebase {
     private static FirebaseAuth auth = SettingInstanceFirebase.getInstanceFirebaseAuth();
 
     public static String getIdentificadorUsuario(){
-       return Base64Costum.encodeBase64( auth .getCurrentUser().getEmail() );
+       return Base64Costum.encodeBase64( auth.getCurrentUser().getEmail() );
     }
 
     public static FirebaseUser getUsuarioAtual(){
@@ -54,7 +57,22 @@ public class UsuarioFirebase {
             return false;
         }
 
+    }
 
+    public static Usuario getDadosUsuarioLogado(){
+        FirebaseUser firebaseUser = getUsuarioAtual();
+
+        Usuario usuarioLogado = new Usuario();
+
+        usuarioLogado.setName( firebaseUser.getDisplayName() );
+        usuarioLogado.setEmail( firebaseUser.getEmail() );
+
+        if (firebaseUser.getPhotoUrl() == null){
+           usuarioLogado.setFoto("");
+        }else  usuarioLogado.setFoto( firebaseUser.getPhotoUrl().toString() );
+
+
+        return usuarioLogado;
     }
 
 
