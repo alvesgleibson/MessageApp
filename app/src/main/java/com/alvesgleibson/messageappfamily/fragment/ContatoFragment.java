@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.adapter.ListaContatoAdapter;
 import com.alvesgleibson.messageappfamily.helper.Base64Costum;
+import com.alvesgleibson.messageappfamily.helper.RecyclerItemClickListener;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +37,7 @@ public class ContatoFragment extends Fragment {
     private ListaContatoAdapter listaContatoAdapter;
     private ValueEventListener eventListener;
     private  DatabaseReference databaseReferenceParaRecycleView;
+    private FirebaseUser usuarioAtual;
 
 
 
@@ -48,6 +52,7 @@ public class ContatoFragment extends Fragment {
 
         recyclerViewContatos = view.findViewById(R.id.rvContato);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity() );
+        usuarioAtual = UsuarioFirebase.getUsuarioAtual();
 
 
         recyclerViewContatos.setLayoutManager(layoutManager );
@@ -58,6 +63,24 @@ public class ContatoFragment extends Fragment {
 
         recyclerViewContatos.setAdapter( listaContatoAdapter);
         buscarUsuariosFirebase();
+        recyclerViewContatos.addOnItemTouchListener( new RecyclerItemClickListener(
+                getActivity(), recyclerViewContatos, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        }
+        ));
 
         return view;
     }
@@ -86,9 +109,12 @@ public class ContatoFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot usuarioSnapshot : snapshot.getChildren()){
 
-                    Usuario usuario1 = usuarioSnapshot.getValue( Usuario.class );
-                    usuarioList.add( usuario1 );
 
+                    Usuario usuario1 = usuarioSnapshot.getValue( Usuario.class );
+
+                    if (!usuarioAtual.getEmail().equals(usuario1.getEmail())){
+                        usuarioList.add( usuario1 );
+                    }
 
                 }
                 listaContatoAdapter.notifyDataSetChanged();
