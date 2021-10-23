@@ -44,7 +44,7 @@ public class ListaContatoAdapter extends RecyclerView.Adapter<ListaContatoAdapte
 
         holder.txtNome.setText( usuario.getName() );
         holder.txtEmail.setText( usuario.getEmail() );
-        if (usuario.getFoto() != null) {
+        if (usuario.getFoto() != null && !usuario.getFoto().equals("")) {
 
             Glide.with(context).load(Uri.parse(usuario.getFoto())).into(holder.imgPerfil);
 

@@ -51,6 +51,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private EditText txtPerfil;
 
+    private FirebaseUser firebaseUser;
+
     private Usuario usuarioLogadoParaAtualizar;
 
 
@@ -66,14 +68,13 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
         idUsuario = UsuarioFirebase.getIdentificadorUsuario();
         storageReference = SettingInstanceFirebase.getStorageReference();
-
+        firebaseUser = UsuarioFirebase.getUsuarioAtual();
 
         acessarCamera();
         acessarGaleria();
 
         //Usuario logado para atualizar
         usuarioLogadoParaAtualizar = UsuarioFirebase.getDadosUsuarioLogado();
-
 
 
         //Recuperar dados usuarios
@@ -93,8 +94,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
     }
 
+
     public void alterarNomeUsuarioConfiguracao(View view){
-        FirebaseUser firebaseUser = UsuarioFirebase.getUsuarioAtual();
+
 
         String nomeUsuario = txtPerfil.getText().toString();
 
@@ -104,6 +106,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
                     usuarioLogadoParaAtualizar.setName( nomeUsuario );
                     usuarioLogadoParaAtualizar.atualizarUsuario();
+                    UsuarioFirebase.atualizarNomePerfilUsuario( nomeUsuario );
+
                     Toast.makeText(this, "Nome perfil atualizado com sucesso", Toast.LENGTH_SHORT).show();
 
             }else Toast.makeText(this, "Nada para alterar", Toast.LENGTH_SHORT).show();
@@ -114,7 +118,6 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
     private void recuperarDadosUsuarioFirebase() {
 
-        FirebaseUser firebaseUser = UsuarioFirebase.getUsuarioAtual();
         Uri url = firebaseUser.getPhotoUrl();
         if (url != null){
             Glide.with(this).load( url ).into( ivPerfil );

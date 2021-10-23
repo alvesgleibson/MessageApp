@@ -1,5 +1,6 @@
 package com.alvesgleibson.messageappfamily.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.adapter.ListaContatoAdapter;
@@ -67,12 +69,12 @@ public class ContatoFragment extends Fragment {
                 getActivity(), recyclerViewContatos, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Toast.makeText(getActivity(), "Curto Item Click"+position, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
-
+                Toast.makeText(getActivity(), "Logon Item Click"+position, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -100,7 +102,6 @@ public class ContatoFragment extends Fragment {
     }
 
     private void buscarUsuariosFirebase() {
-        String email = Base64Costum.decodeBase64(UsuarioFirebase.getIdentificadorUsuario());
 
         databaseReferenceParaRecycleView = SettingInstanceFirebase.getDatabaseReference().child("Users");
 

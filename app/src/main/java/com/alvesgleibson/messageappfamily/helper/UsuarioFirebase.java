@@ -22,6 +22,7 @@ public class UsuarioFirebase {
         return auth.getCurrentUser();
     }
 
+    //Atualizar foto do perfil no FirebaseUser
     public static boolean atualizarFotoUsuarioMetodoClass(Uri url){
         try {
             FirebaseUser user = getUsuarioAtual();
@@ -40,6 +41,7 @@ public class UsuarioFirebase {
 
     }
 
+    //Atualizar Nome do perfil no FirebaseUser
     public static boolean atualizarNomePerfilUsuario(String nomePerfil){
 
         try {
@@ -67,10 +69,9 @@ public class UsuarioFirebase {
         usuarioLogado.setName( firebaseUser.getDisplayName() );
         usuarioLogado.setEmail( firebaseUser.getEmail() );
 
-        if (firebaseUser.getPhotoUrl() == null){
-           usuarioLogado.setFoto("");
-        }else  usuarioLogado.setFoto( firebaseUser.getPhotoUrl().toString() );
-
+        if (firebaseUser.getPhotoUrl() != null){
+            usuarioLogado.setFoto( firebaseUser.getPhotoUrl().toString() );
+        }
 
         return usuarioLogado;
     }
