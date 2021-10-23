@@ -2,6 +2,7 @@ package com.alvesgleibson.messageappfamily.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.alvesgleibson.messageappfamily.R;
+import com.alvesgleibson.messageappfamily.activity.ChatActivity;
 import com.alvesgleibson.messageappfamily.adapter.ListaContatoAdapter;
 import com.alvesgleibson.messageappfamily.helper.Base64Costum;
 import com.alvesgleibson.messageappfamily.helper.RecyclerItemClickListener;
@@ -69,7 +71,7 @@ public class ContatoFragment extends Fragment {
                 getActivity(), recyclerViewContatos, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), "Curto Item Click"+position, Toast.LENGTH_SHORT).show();
+                startActivity( new Intent(getActivity(), ChatActivity.class));
             }
 
             @Override

@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.alvesgleibson.messageappfamily"
-    android:hardwareAccelerated="true"
-    >
+    android:hardwareAccelerated="true">
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true"
-        />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+        android:required="true" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -20,9 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MessageAppFamily">
         <activity
+            android:name=".activity.ChatActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity"
+            />
+        <activity
             android:name=".activity.ConfiguracoesActivity"
             android:exported="false"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.CadastroActivity"
             android:exported="true" />
