@@ -71,7 +71,18 @@ public class ContatoFragment extends Fragment {
                 getActivity(), recyclerViewContatos, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity( new Intent(getActivity(), ChatActivity.class));
+                //Passando dados entre telas
+                Bundle bundle = new Bundle();
+
+                //recuperando o usuario selecionado para enviar a outra tela
+                Usuario usuario = usuarioList.get( position );
+
+                bundle.putString("usuario_nome", usuario.getName());
+                bundle.putString("usuario_foto", usuario.getFoto());
+
+                Intent i = new Intent(getActivity(), ChatActivity.class);
+                i.putExtra( "usuario", usuario);
+                startActivity( i );
             }
 
             @Override

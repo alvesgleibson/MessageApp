@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color_fundo_configuracao">#EEEEEE</color>
+    <color name="mensagem">#C6EC8E</color>
 
 
 </resources>
