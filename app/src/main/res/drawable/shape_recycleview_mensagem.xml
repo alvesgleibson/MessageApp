@@ -3,11 +3,13 @@
     android:shape="rectangle">
 
     <solid android:color="@color/mensagem"/>
+
     <corners
         android:bottomRightRadius="16dp"
         android:bottomLeftRadius="16dp"
         android:topRightRadius="16dp"
         android:topLeftRadius="16dp"/>
+
 
 
 

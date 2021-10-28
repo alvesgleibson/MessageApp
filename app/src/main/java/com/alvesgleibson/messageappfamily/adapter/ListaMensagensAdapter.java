@@ -12,11 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alvesgleibson.messageappfamily.R;
+import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Mensagem;
 
 import java.util.List;
 
 public class ListaMensagensAdapter extends RecyclerView.Adapter<ListaMensagensAdapter.MyViewHolder> {
+
+    private static final int TIPO_REMETENTE = 0, TIPO_DESTINATARIO = 1;
 
     private Context context;
     private List<Mensagem> mensagemList;
@@ -29,9 +32,26 @@ public class ListaMensagensAdapter extends RecyclerView.Adapter<ListaMensagensAd
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_lista_mensagem_rementente, parent, false);
+        View view;
+        if (viewType == TIPO_REMETENTE){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_lista_mensagem_rementente, parent, false);
+        } else view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_lista_mensagem_destinatario, parent, false);
+
 
         return new MyViewHolder( view );
+    }
+
+    //Para definir qual layout usar
+    @Override
+    public int getItemViewType(int position) {
+
+        Mensagem mensagem = mensagemList.get( position );
+        String usuario = UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64();
+
+        if (mensagem.getIdUsuarioMensagemEnviada().equals( usuario )){
+            return TIPO_REMETENTE;
+        }else return TIPO_DESTINATARIO;
+
     }
 
     @Override
@@ -51,6 +71,8 @@ public class ListaMensagensAdapter extends RecyclerView.Adapter<ListaMensagensAd
     public int getItemCount() {
         return mensagemList.size();
     }
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
