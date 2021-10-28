@@ -31,7 +31,7 @@ public class Usuario implements Serializable {
 
     public void atualizarUsuario(){
 
-        String identificadorUsuario = UsuarioFirebase.getIdentificadorUsuario();
+        String identificadorUsuario = UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64();
         DatabaseReference reference = SettingInstanceFirebase.getDatabaseReference();
 
         DatabaseReference usuarioReference =  reference.child("Users").child( identificadorUsuario );

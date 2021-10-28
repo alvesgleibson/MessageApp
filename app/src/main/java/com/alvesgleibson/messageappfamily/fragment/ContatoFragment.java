@@ -118,6 +118,8 @@ public class ContatoFragment extends Fragment {
 
         databaseReferenceParaRecycleView = SettingInstanceFirebase.getDatabaseReference().child("Users");
 
+        usuarioList.clear();
+
         eventListener = databaseReferenceParaRecycleView.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -127,6 +129,7 @@ public class ContatoFragment extends Fragment {
                     Usuario usuario1 = usuarioSnapshot.getValue( Usuario.class );
 
                     if (!usuarioAtual.getEmail().equals(usuario1.getEmail())){
+
                         usuarioList.add( usuario1 );
                     }
 

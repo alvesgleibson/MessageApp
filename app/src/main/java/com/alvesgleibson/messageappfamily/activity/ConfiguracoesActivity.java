@@ -66,7 +66,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         ivPerfil = findViewById(R.id.circleImageViewFotoPerfil);
         txtPerfil = findViewById(R.id.txtUsuarioNomePerfil);
 
-        idUsuario = UsuarioFirebase.getIdentificadorUsuario();
+        idUsuario = UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64();
         storageReference = SettingInstanceFirebase.getStorageReference();
         firebaseUser = UsuarioFirebase.getUsuarioAtual();
 

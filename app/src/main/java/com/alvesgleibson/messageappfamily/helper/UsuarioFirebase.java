@@ -2,9 +2,6 @@ package com.alvesgleibson.messageappfamily.helper;
 
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.alvesgleibson.messageappfamily.activity.ConfiguracoesActivity;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,7 +11,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class UsuarioFirebase {
     private static FirebaseAuth auth = SettingInstanceFirebase.getInstanceFirebaseAuth();
 
-    public static String getIdentificadorUsuario(){
+    public static String getIdentificadorUsuarioRetornoEmailBase64(){
        return Base64Costum.encodeBase64( auth.getCurrentUser().getEmail() );
     }
 
