@@ -15,6 +15,8 @@ public class Mensagem {
         DatabaseReference databaseReference = SettingInstanceFirebase.getDatabaseReference();
         databaseReference.child("Mensagens").child(getIdUsuarioMensagemEnviada()).child(idUsuarioDestino).child("Mensagem").push().setValue(this);
 
+        databaseReference.child("Mensagens").child(idUsuarioDestino).child(getIdUsuarioMensagemEnviada()).child("Mensagem").push().setValue(this);
+
     }
 
     public void salvarMensagemImagem(String idUsuarioDestino){
