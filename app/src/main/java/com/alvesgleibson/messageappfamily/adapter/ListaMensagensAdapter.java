@@ -58,12 +58,13 @@ public class ListaMensagensAdapter extends RecyclerView.Adapter<ListaMensagensAd
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Mensagem mensagem = mensagemList.get( position );
-        holder.textView.setText( mensagem.getMensagem() );
 
         if (mensagem.getImageMensagem() != null && !mensagem.getImageMensagem().isEmpty()){
             holder.imageView.setImageURI(Uri.parse( mensagem.getImageMensagem()));
             holder.imageView.setVisibility( View.VISIBLE );
-        }
+            holder.textView.setVisibility( View.GONE );
+
+        }else holder.textView.setText( mensagem.getMensagem() );
 
     }
 

@@ -10,8 +10,10 @@
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/adapter_lista_contato.xml" value="0.5" />
+        <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/adapter_lista_conversa.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/adapter_lista_mensagem.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/adapter_lista_mensagem_destinatario.xml" value="0.9" />
+        <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/adapter_lista_mensagem_rementente.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/anapter_lista_mensagem.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/fragment_contato.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/toolbar.xml" value="0.36666666666666664" />

@@ -2,6 +2,7 @@ package com.alvesgleibson.messageappfamily.activity;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import com.alvesgleibson.messageappfamily.model.Mensagem;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +44,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private Usuario usuarioDestinatarioIntent;
     private DatabaseReference databaseReferenceParaRecycleViewMensagem;
-    private ValueEventListener eventListener;
+    private ChildEventListener childEventListener;
 
     private ListaMensagensAdapter listaAdapterMensagem;
 
@@ -78,8 +80,7 @@ public class ChatActivity extends AppCompatActivity {
 
         usuarioDestinatarioBase64 = Base64Costum.encodeBase64( usuarioDestinatarioIntent.getEmail() );
 
-        //Setar lista de mensagem para mostrar
-        recuperarListaMensagemFirebase();
+
 
         //Configurar adapter e recycleView
 
@@ -88,6 +89,13 @@ public class ChatActivity extends AppCompatActivity {
 
         listaAdapterMensagem = new ListaMensagensAdapter( this,  mensagemListaExibir);
         recyclerViewMensagem.setAdapter( listaAdapterMensagem );
+
+        //
+        databaseReferenceParaRecycleViewMensagem = SettingInstanceFirebase.getDatabaseReference()
+                .child("Mensagens")
+                .child(UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64())
+                .child(usuarioDestinatarioBase64)
+                .child("Mensagem");
 
     }
 
@@ -113,23 +121,30 @@ public class ChatActivity extends AppCompatActivity {
 
     private void recuperarListaMensagemFirebase() {
 
-        databaseReferenceParaRecycleViewMensagem = SettingInstanceFirebase.getDatabaseReference().child("Mensagens").child(UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64()).child(usuarioDestinatarioBase64).child("Mensagem");
 
-
-
-        eventListener = databaseReferenceParaRecycleViewMensagem.addValueEventListener(new ValueEventListener() {
+        childEventListener = databaseReferenceParaRecycleViewMensagem.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Limpar a lista para não juntar da listagem para outra
-                mensagemListaExibir.clear();
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                for (DataSnapshot mensagemSnapshot : snapshot.getChildren()){
-
-                    Mensagem mensagem = mensagemSnapshot.getValue( Mensagem.class );
-                    mensagemListaExibir.add( mensagem );
-                }
+                Mensagem mensagem = snapshot.getValue( Mensagem.class );
+                mensagemListaExibir.add( mensagem );
 
                 listaAdapterMensagem.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
@@ -153,11 +168,17 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        recuperarListaMensagemFirebase();
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        databaseReferenceParaRecycleViewMensagem.removeEventListener( eventListener );
+        databaseReferenceParaRecycleViewMensagem.removeEventListener( childEventListener );
     }
 }
