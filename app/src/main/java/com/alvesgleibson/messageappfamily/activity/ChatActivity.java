@@ -17,6 +17,7 @@ import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.adapter.ListaMensagensAdapter;
 import com.alvesgleibson.messageappfamily.helper.Base64Costum;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
+import com.alvesgleibson.messageappfamily.model.Conversa;
 import com.alvesgleibson.messageappfamily.model.Mensagem;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
@@ -40,6 +41,7 @@ public class ChatActivity extends AppCompatActivity {
     private TextView txtPerfil, txtMensagem;
 
     private RecyclerView recyclerViewMensagem;
+
     private List<Mensagem> mensagemListaExibir =  new ArrayList<>();
 
     private Usuario usuarioDestinatarioIntent;
@@ -106,12 +108,20 @@ public class ChatActivity extends AppCompatActivity {
         String s = txtMensagem.getText().toString().trim();
         if (!s.isEmpty() && !s.equals("")){
 
+            //Salvando mensagem
             Mensagem mensagem = new Mensagem();
 
             mensagem.setMensagem( s );
             mensagem.setIdUsuarioMensagemEnviada( UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64() );
-
             mensagem.salvarMensagemTexto( usuarioDestinatarioBase64 );
+
+            //Salvando Conversa
+            Conversa conversa = new Conversa();
+
+            conversa.setIdUsuarioEnvio( UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64() );
+            conversa.setIdUsuarioRecebendo( usuarioDestinatarioBase64 );
+            conversa.salvarMensagemConversa( s );
+            conversa.setUltimaMensagem( s );
 
 
             txtMensagem.setText("");

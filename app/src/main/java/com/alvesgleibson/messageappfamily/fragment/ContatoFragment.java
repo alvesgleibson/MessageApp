@@ -1,7 +1,5 @@
 package com.alvesgleibson.messageappfamily.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,7 +17,6 @@ import android.widget.Toast;
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.activity.ChatActivity;
 import com.alvesgleibson.messageappfamily.adapter.ListaContatoAdapter;
-import com.alvesgleibson.messageappfamily.helper.Base64Costum;
 import com.alvesgleibson.messageappfamily.helper.RecyclerItemClickListener;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Usuario;
@@ -31,7 +28,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 public class ContatoFragment extends Fragment {
