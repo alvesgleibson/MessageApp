@@ -5,29 +5,30 @@ import com.google.firebase.database.DatabaseReference;
 
 public class Conversa {
 
-    private String mensagem, idUsuarioEnvio, idUsuarioRecebendo, ultimaMensagem;
+    private String idUsuarioEnvio, idUsuarioRecebendo, ultimaMensagem;
+    private Usuario usuarioExibicao;
 
 
     public Conversa() {
     }
 
-    public void salvarMensagemConversa( String msg ){
+    public void salvarMensagemConversa(){
 
         DatabaseReference databaseReference = SettingInstanceFirebase.getDatabaseReference();
+        DatabaseReference databaseRefeUsuario = databaseReference.child("conversas");
+
         //Copia Usuario Enviando
-        databaseReference.child("conversas").child(getIdUsuarioEnvio()).child(getIdUsuarioRecebendo()).push().setValue(msg);
+        databaseRefeUsuario.child(getIdUsuarioEnvio()).child(getIdUsuarioRecebendo()).setValue(this);
 
-        //Copia Usuario Recebendo
-        databaseReference.child("conversas").child(getIdUsuarioRecebendo()).child(getIdUsuarioEnvio()).push().setValue(msg);
 
     }
 
-    public String getMensagem() {
-        return mensagem;
+    public Usuario getUsuarioExibicao() {
+        return usuarioExibicao;
     }
 
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
+    public void setUsuarioExibicao(Usuario usuarioExibicao) {
+        this.usuarioExibicao = usuarioExibicao;
     }
 
     public String getIdUsuarioEnvio() {

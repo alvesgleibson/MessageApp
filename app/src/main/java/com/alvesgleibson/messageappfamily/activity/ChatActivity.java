@@ -120,8 +120,10 @@ public class ChatActivity extends AppCompatActivity {
 
             conversa.setIdUsuarioEnvio( UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64() );
             conversa.setIdUsuarioRecebendo( usuarioDestinatarioBase64 );
-            conversa.salvarMensagemConversa( s );
+            conversa.setUsuarioExibicao( usuarioDestinatarioIntent );
             conversa.setUltimaMensagem( s );
+
+            conversa.salvarMensagemConversa();
 
 
             txtMensagem.setText("");

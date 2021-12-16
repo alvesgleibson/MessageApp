@@ -41,14 +41,17 @@ public class ListaContatoAdapter extends RecyclerView.Adapter<ListaContatoAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Usuario usuario = usuarioList.get( position );
 
+        if (usuario != null){
+            holder.txtNome.setText( usuario.getName() );
+            holder.txtEmail.setText( usuario.getEmail() );
+            if (usuario.getFoto() != null && !usuario.getFoto().equals("")) {
 
-        holder.txtNome.setText( usuario.getName() );
-        holder.txtEmail.setText( usuario.getEmail() );
-        if (usuario.getFoto() != null && !usuario.getFoto().equals("")) {
+                Glide.with(context).load(Uri.parse(usuario.getFoto())).into(holder.imgPerfil);
 
-            Glide.with(context).load(Uri.parse(usuario.getFoto())).into(holder.imgPerfil);
+            }else holder.imgPerfil.setImageResource(R.drawable.padrao);
 
-        }else holder.imgPerfil.setImageResource(R.drawable.padrao);
+        }
+
 
     }
 

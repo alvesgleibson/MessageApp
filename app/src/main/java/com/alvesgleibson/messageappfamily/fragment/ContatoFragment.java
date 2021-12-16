@@ -36,7 +36,7 @@ public class ContatoFragment extends Fragment {
     private RecyclerView recyclerViewContatos;
     private ListaContatoAdapter listaContatoAdapter;
     private ValueEventListener eventListener;
-    private  DatabaseReference databaseReferenceParaRecycleView;
+    private DatabaseReference databaseReferenceParaRecycleView;
     private FirebaseUser usuarioAtual;
 
 
@@ -63,6 +63,7 @@ public class ContatoFragment extends Fragment {
 
         recyclerViewContatos.setAdapter( listaContatoAdapter);
         buscarUsuariosFirebase();
+
         recyclerViewContatos.addOnItemTouchListener( new RecyclerItemClickListener(
                 getActivity(), recyclerViewContatos, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -92,7 +93,6 @@ public class ContatoFragment extends Fragment {
             }
         }
         ));
-
         return view;
     }
 
