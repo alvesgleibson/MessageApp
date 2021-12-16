@@ -36,7 +36,7 @@ public class ListaConversaAdapter extends RecyclerView.Adapter<ListaConversaAdap
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_lista_conversa, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_lista_contato, parent, false);
 
         return new MyViewHolder(view);
     }
@@ -75,9 +75,9 @@ public class ListaConversaAdapter extends RecyclerView.Adapter<ListaConversaAdap
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgPerfil = itemView.findViewById(R.id.imgConversaPerfil);
-            txtNome =  itemView.findViewById(R.id.txtConversaNome);
-            txtUltimaMensagem =  itemView.findViewById(R.id.txtConversaUltimaMensagem);
+            imgPerfil = itemView.findViewById(R.id.imgContatoPerfil);
+            txtNome =  itemView.findViewById(R.id.txtContatosNome);
+            txtUltimaMensagem =  itemView.findViewById(R.id.txtContodosEmail);
 
         }
     }
