@@ -69,10 +69,55 @@ public class ConversasFragment extends Fragment {
 
         databaseReferenceUsuarioParaConversa = databaseRef.child("conversas").child( usuario );
 
+        //click para pagna de conversa
+        abrirPaginaConversa();
 
 
         return view;
     }
+
+    private void abrirPaginaConversa() {
+
+        //adicionando click na RecyclerViewConversas
+        recyclerViewConversas.addOnItemTouchListener(  new RecyclerItemClickListener(
+                        getActivity(),
+                        recyclerViewConversas,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                                //Passando dados entre telas
+                                Bundle bundle = new Bundle();
+
+                                //recuperando o usuario selecionado para enviar a outra tela
+                                Usuario passarEntreTelas = conversaList.get( position ).getUsuarioExibicao();
+
+                                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                                intent.putExtra("usuario", passarEntreTelas);
+                                startActivity( intent );
+
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            }
+                        }
+
+                )
+
+        );
+
+
+
+    }
+
 
 
 
