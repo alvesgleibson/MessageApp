@@ -57,6 +57,9 @@ dependencies {
     //Dependencia para arrendondamento de imagens
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    //Dependencia para barra de pesquisa
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
 
 }
 
