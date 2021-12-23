@@ -41,6 +41,8 @@ public class ListaContatoAdapter extends RecyclerView.Adapter<ListaContatoAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Usuario usuario = usuarioList.get( position );
 
+        boolean cabecalho =  usuario.getEmail().isEmpty();
+
         if (usuario != null){
             holder.txtNome.setText( usuario.getName() );
             holder.txtEmail.setText( usuario.getEmail() );
@@ -48,11 +50,20 @@ public class ListaContatoAdapter extends RecyclerView.Adapter<ListaContatoAdapte
 
                 Glide.with(context).load(Uri.parse(usuario.getFoto())).into(holder.imgPerfil);
 
-            }else holder.imgPerfil.setImageResource(R.drawable.padrao);
+            }else {
+
+                if ( cabecalho ){
+
+                    holder.imgPerfil.setImageResource(R.drawable.icone_grupo);
+                    holder.txtEmail.setVisibility( View.GONE );
+
+                }else holder.imgPerfil.setImageResource(R.drawable.padrao);
+
+
+            }
 
         }
-
-
+        
     }
 
     @Override

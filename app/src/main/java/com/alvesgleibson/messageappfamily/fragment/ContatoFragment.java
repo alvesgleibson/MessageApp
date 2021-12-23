@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.activity.ChatActivity;
+import com.alvesgleibson.messageappfamily.activity.GrupoActivity;
 import com.alvesgleibson.messageappfamily.adapter.ListaContatoAdapter;
 import com.alvesgleibson.messageappfamily.helper.RecyclerItemClickListener;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
@@ -68,18 +69,32 @@ public class ContatoFragment extends Fragment {
                 getActivity(), recyclerViewContatos, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //Passando dados entre telas
-                Bundle bundle = new Bundle();
+                /*
+                    Passando dados entre telas
+                    Bundle bundle = new Bundle();
+                    bundle.putString("usuario_nome", usuario.getName());
+                    bundle.putString("usuario_foto", usuario.getFoto());
+                **/
 
                 //recuperando o usuario selecionado para enviar a outra tela
                 Usuario usuario = usuarioList.get( position );
 
-                bundle.putString("usuario_nome", usuario.getName());
-                bundle.putString("usuario_foto", usuario.getFoto());
 
-                Intent i = new Intent(getActivity(), ChatActivity.class);
-                i.putExtra( "usuario", usuario);
-                startActivity( i );
+                //saber se é o cabecalho
+                boolean usuarioCabecalho = usuario.getEmail().isEmpty();
+
+                if (  usuarioCabecalho ){
+
+                    Intent i  = new Intent(getActivity(), GrupoActivity.class);
+                    startActivity( i );
+
+                }else {
+                    Intent i = new Intent(getActivity(), ChatActivity.class);
+                    i.putExtra( "usuario", usuario);
+                    startActivity( i );
+                }
+
+
             }
 
             @Override
@@ -93,6 +108,19 @@ public class ContatoFragment extends Fragment {
             }
         }
         ));
+
+        /* Adicionando um usuario com email vazio
+        *  em caso de email vazio o usuario sera utilizado
+        *  como cabeçalho, exibindo novo grupo
+        * */
+        Usuario usuarioGrupo = new Usuario();
+
+        usuarioGrupo.setName("Novo Grupo");
+        usuarioGrupo.setEmail("");
+
+        usuarioList.add( usuarioGrupo );
+
+
         return view;
     }
 
