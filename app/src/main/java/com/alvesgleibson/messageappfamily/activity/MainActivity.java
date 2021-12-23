@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +26,8 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth = SettingInstanceFirebase.getInstanceFirebaseAuth();
+    private FragmentPagerItemAdapter fragmentPagerItemAdapter;
+    private ConversasFragment fragmentConversas;
 
 
     @Override
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void smartTabLayAdapter() {
 
-        FragmentPagerItemAdapter fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
+        fragmentPagerItemAdapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(),
                 FragmentPagerItems.with(this)
                 .add("Conversas", ConversasFragment.class)
@@ -60,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
         smartTabLayout.setViewPager( viewPager );
 
 
-
     }
-
 
 
     //Criar Menu
@@ -76,31 +77,44 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.menu_pesquisa);
         searchView.setMenuItem(item);
 
+        //Listener para caixa de texto
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this, "Teste"+ query, Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                return false;
+                //Acessar o fragmento ConversasFragment
+                fragmentConversas = (ConversasFragment) fragmentPagerItemAdapter.getPage( 0 );
+
+                if ( newText != null && !newText.isEmpty() ){
+
+                   fragmentConversas.pesquisarConversaMain( newText.toLowerCase() );
+
+                }
+
+                return true;
             }
         });
 
+
+        //Listener para o SearchView
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                //Do some magic
+
             }
 
             @Override
             public void onSearchViewClosed() {
-                //Do some magic
+                fragmentConversas.atualizarConversaCloseSearchViewMainActivity();
             }
         });
+
+
 
 
         return super.onCreateOptionsMenu(menu);

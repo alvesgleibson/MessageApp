@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,42 @@ public class ConversasFragment extends Fragment {
         return view;
     }
 
+    public void pesquisarConversaMain(String conversaPesquisar){
+        //Log.d("Pesquisa", "pesquisarConversaMain: "+conversaPesquisar);
+
+        List<Conversa> conversaListPesquisa = new ArrayList<>();
+
+
+        for (Conversa conversa: conversaList) {
+
+            String name = conversa.getUsuarioExibicao().getName().toLowerCase();
+            String ultimaMensagem = conversa.getUltimaMensagem().toLowerCase();
+
+            if (name.contains( conversaPesquisar ) || ultimaMensagem.contains( conversaPesquisar) ){
+
+                conversaListPesquisa.add( conversa );
+
+            }
+
+        }
+
+        //Atualizar a recyclerview com a nova lista ja filtrada
+        listaConversaAdapter = new ListaConversaAdapter(conversaListPesquisa, getActivity());
+        recyclerViewConversas.setAdapter( listaConversaAdapter );
+        listaConversaAdapter.notifyDataSetChanged();
+
+
+    }
+
+    public void atualizarConversaCloseSearchViewMainActivity(){
+
+        //Voltar a
+        listaConversaAdapter = new ListaConversaAdapter(conversaList, getActivity());
+        recyclerViewConversas.setAdapter( listaConversaAdapter );
+        listaConversaAdapter.notifyDataSetChanged();
+
+    }
+
     private void abrirPaginaConversa() {
 
         //adicionando click na RecyclerViewConversas
@@ -96,7 +133,6 @@ public class ConversasFragment extends Fragment {
                                 intent.putExtra("usuario", passarEntreTelas);
                                 startActivity( intent );
 
-
                             }
 
                             @Override
@@ -111,14 +147,9 @@ public class ConversasFragment extends Fragment {
                         }
 
                 )
-
         );
 
-
-
     }
-
-
 
 
     @Override
@@ -134,6 +165,8 @@ public class ConversasFragment extends Fragment {
         super.onStop();
         databaseReferenceUsuarioParaConversa.removeEventListener( eventListener );
     }
+
+
 
 
 
