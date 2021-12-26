@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.adapter.ListaContatoAdapter;
+import com.alvesgleibson.messageappfamily.adapter.ListaMembroGrupoAdapter;
+import com.alvesgleibson.messageappfamily.helper.RecyclerItemClickListener;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
@@ -26,10 +30,13 @@ public class GrupoActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewMembro, recyclerViewMembroSelecionado;
     private List<Usuario> usuarioList =  new ArrayList<>();
+    private List<Usuario> usuarioListSelecionados =  new ArrayList<>();
     private ValueEventListener eventListener;
     private DatabaseReference databaseReferenceParaRecycleView;
     private ListaContatoAdapter listaContatoAdapter;
+    private ListaMembroGrupoAdapter listaMembroGrupoAdapter;
     private FirebaseUser usuarioAtual;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +45,11 @@ public class GrupoActivity extends AppCompatActivity {
 
 
         //Configurando ToolBar
-        Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
+        toolbar = findViewById(R.id.toolbarPrincipal);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
+
 
         //Adicionando o botão Voltar na Toolbar
 
@@ -52,9 +61,17 @@ public class GrupoActivity extends AppCompatActivity {
 
         //RecyclerView
         recyclerViewMembroCreate();
+        recyclerViewMembroSelecionadosCreate();
+
+        //OnclickNoRecyclerView
+        onClickRecyclerViewMembros();
+        onClickRecyclerViewMembrosSelecionados();
+
 
         usuarioAtual = UsuarioFirebase.getUsuarioAtual();
     }
+
+
 
     @Override
     protected void onStart() {
@@ -66,6 +83,83 @@ public class GrupoActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         databaseReferenceParaRecycleView.removeEventListener( eventListener );
+
+    }
+
+    private void onClickRecyclerViewMembrosSelecionados() {
+
+        recyclerViewMembroSelecionado.addOnItemTouchListener( new RecyclerItemClickListener(this, recyclerViewMembroSelecionado, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                Usuario usuarioSelecionado = usuarioListSelecionados.get( position );
+
+                usuarioList.add( usuarioSelecionado );
+                usuarioListSelecionados.remove( usuarioSelecionado );
+
+                listaMembroGrupoAdapter.notifyDataSetChanged();
+                listaContatoAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        }));
+
+    }
+
+    private void onClickRecyclerViewMembros() {
+
+        recyclerViewMembro.addOnItemTouchListener( new RecyclerItemClickListener(this, recyclerViewMembro, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                Usuario usuarioSelecionado = usuarioList.get( position );
+
+                //Adicionar Usuario na Lista
+
+                usuarioListSelecionados.add( usuarioSelecionado );
+                listaMembroGrupoAdapter.notifyDataSetChanged();
+
+                //Remover Usuario da lista
+                usuarioList.remove( usuarioSelecionado );
+                listaContatoAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        }));
+
+
+    }
+
+
+    private void recyclerViewMembroSelecionadosCreate() {
+
+        listaMembroGrupoAdapter = new ListaMembroGrupoAdapter( getApplicationContext(), usuarioListSelecionados);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewMembroSelecionado.setHasFixedSize( true );
+        recyclerViewMembroSelecionado.setLayoutManager( layoutManager );
+        recyclerViewMembroSelecionado.setAdapter( listaMembroGrupoAdapter );
+
 
     }
 
@@ -90,8 +184,8 @@ public class GrupoActivity extends AppCompatActivity {
         eventListener = databaseReferenceParaRecycleView.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot usuarioSnapshot : snapshot.getChildren()){
 
+                for (DataSnapshot usuarioSnapshot : snapshot.getChildren()){
 
                     Usuario usuario1 = usuarioSnapshot.getValue( Usuario.class );
 
