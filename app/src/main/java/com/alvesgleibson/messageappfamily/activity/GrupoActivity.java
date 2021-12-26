@@ -38,6 +38,7 @@ public class GrupoActivity extends AppCompatActivity {
     private FirebaseUser usuarioAtual;
     private Toolbar toolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,7 @@ public class GrupoActivity extends AppCompatActivity {
 
         //Configurando ToolBar
         toolbar = findViewById(R.id.toolbarPrincipal);
-        toolbar.setTitle("");
+        toolbar.setTitle("Novo Grupo");
         setSupportActionBar(toolbar);
 
 
@@ -77,6 +78,8 @@ public class GrupoActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         buscarUsuariosFirebase();
+
+
     }
 
     @Override
@@ -84,6 +87,13 @@ public class GrupoActivity extends AppCompatActivity {
         super.onStop();
         databaseReferenceParaRecycleView.removeEventListener( eventListener );
 
+    }
+
+    public void atualizarMembroToolBar(){
+
+        int totalSelecionados = usuarioList.size() + usuarioListSelecionados.size();
+
+        toolbar.setSubtitle( usuarioListSelecionados.size()+" de "+ totalSelecionados+ " selecionados");
     }
 
     private void onClickRecyclerViewMembrosSelecionados() {
@@ -97,9 +107,10 @@ public class GrupoActivity extends AppCompatActivity {
                 usuarioList.add( usuarioSelecionado );
                 usuarioListSelecionados.remove( usuarioSelecionado );
 
+
                 listaMembroGrupoAdapter.notifyDataSetChanged();
                 listaContatoAdapter.notifyDataSetChanged();
-
+                atualizarMembroToolBar();
 
             }
 
@@ -132,6 +143,7 @@ public class GrupoActivity extends AppCompatActivity {
                 //Remover Usuario da lista
                 usuarioList.remove( usuarioSelecionado );
                 listaContatoAdapter.notifyDataSetChanged();
+                atualizarMembroToolBar();
 
 
             }
@@ -195,6 +207,7 @@ public class GrupoActivity extends AppCompatActivity {
                     }
 
                 }
+                atualizarMembroToolBar();
                 listaContatoAdapter.notifyDataSetChanged();
             }
 
