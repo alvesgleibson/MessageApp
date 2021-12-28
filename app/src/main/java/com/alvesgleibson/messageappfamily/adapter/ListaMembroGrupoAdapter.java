@@ -18,7 +18,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ListaMembroGrupoAdapter extends RecyclerView.Adapter<ListaMembroGrupoAdapter.MyViewHolder> {
+public class ListaMembroGrupoAdapter extends RecyclerView.Adapter<ListaMembroGrupoAdapter.MyViewHolder>  {
 
     private Context context;
     private List<Usuario> usuarios;

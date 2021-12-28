@@ -7,8 +7,9 @@
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/drawable/ic_next_page.xml" value="0.3828125" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/drawable/shape_recycleview_mensagem.xml" value="0.3828125" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_chat.xml" value="0.33" />
+        <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_configuracao_grupo.xml" value="0.30710659898477155" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_configuracoes.xml" value="0.36666666666666664" />
-        <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_grupo.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_grupo.xml" value="0.3055555555555556" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/adapter_lista_contato.xml" value="0.5" />
@@ -19,7 +20,7 @@
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/anapter_lista_mensagem.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/fragment_contato.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/fragment_conversas.xml" value="0.36666666666666664" />
-        <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/toolbar.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/toolbar.xml" value="0.3055555555555556" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/layout/usuario_selecionado.xml" value="0.33" />
         <entry key="..\:/AndroidPrograms/MessageApp/app/src/main/res/menu/menu_main.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidPrograms/MessageAppFamily/app/src/main/res/drawable/ic_photo_camera_24.xml" value="0.3828125" />

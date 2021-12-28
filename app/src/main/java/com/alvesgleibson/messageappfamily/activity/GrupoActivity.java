@@ -6,9 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.adapter.ListaContatoAdapter;
@@ -17,12 +20,14 @@ import com.alvesgleibson.messageappfamily.helper.RecyclerItemClickListener;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +65,7 @@ public class GrupoActivity extends AppCompatActivity {
         recyclerViewMembro = findViewById(R.id.recyclerMembros);
         recyclerViewMembroSelecionado = findViewById(R.id.recyclerMembrosSelecionados);
 
+
         //RecyclerView
         recyclerViewMembroCreate();
         recyclerViewMembroSelecionadosCreate();
@@ -70,8 +76,27 @@ public class GrupoActivity extends AppCompatActivity {
 
 
         usuarioAtual = UsuarioFirebase.getUsuarioAtual();
+        fabAcao();
+
     }
 
+    private void fabAcao() {
+        FloatingActionButton floatingActionButton = findViewById(R.id.FAB_Screen);
+
+        floatingActionButton.setOnClickListener( view -> {
+            Intent i = new Intent(GrupoActivity.this, ConfiguracaoGrupoActivity.class);
+            if ( !usuarioListSelecionados.isEmpty() ){
+                if (usuarioListSelecionados.size() >= 2){
+                    i.putExtra("UsuarioSelecionado", (Serializable) usuarioListSelecionados);
+                    startActivity( i );
+                }else Toast.makeText(this, "Grupo não pode ser com 1 pessoa, no minimo 2", Toast.LENGTH_LONG).show();
+
+            } else Toast.makeText(this, "Grupo Vazio, selecione no minimo 2 pessoas", Toast.LENGTH_LONG).show();
+
+
+        });
+
+    }
 
 
     @Override
