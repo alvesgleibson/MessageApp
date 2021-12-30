@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -78,7 +77,7 @@ public class ListaContatoAdapter extends RecyclerView.Adapter<ListaContatoAdapte
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgPerfil = itemView.findViewById(R.id.imgContatoPerfil);
+            imgPerfil = itemView.findViewById(R.id.imgPerfilGrupo);
             txtNome =  itemView.findViewById(R.id.txtContatosNome);
             txtEmail =  itemView.findViewById(R.id.txtContodosEmail);
 

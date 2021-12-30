@@ -75,7 +75,7 @@ public class ListaConversaAdapter extends RecyclerView.Adapter<ListaConversaAdap
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgPerfil = itemView.findViewById(R.id.imgContatoPerfil);
+            imgPerfil = itemView.findViewById(R.id.imgPerfilGrupo);
             txtNome =  itemView.findViewById(R.id.txtContatosNome);
             txtUltimaMensagem =  itemView.findViewById(R.id.txtContodosEmail);
 

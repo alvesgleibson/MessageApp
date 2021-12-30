@@ -7,7 +7,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgContatoPerfil"
+        android:id="@+id/imgPerfilGrupo"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_weight="1"
