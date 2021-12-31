@@ -18,6 +18,7 @@ import com.alvesgleibson.messageappfamily.adapter.ListaMensagensAdapter;
 import com.alvesgleibson.messageappfamily.helper.Base64Costum;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Conversa;
+import com.alvesgleibson.messageappfamily.model.Grupo;
 import com.alvesgleibson.messageappfamily.model.Mensagem;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
@@ -45,6 +46,7 @@ public class ChatActivity extends AppCompatActivity {
     private List<Mensagem> mensagemListaExibir =  new ArrayList<>();
 
     private Usuario usuarioDestinatarioIntent;
+    private Grupo grupoRecebidoViaIntentDoConversaActivity;
     private DatabaseReference databaseReferenceParaRecycleViewMensagem;
     private ChildEventListener childEventListener;
 
@@ -68,19 +70,33 @@ public class ChatActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        //Recuperar nome, foto via intent
-        if(getIntent().getSerializableExtra("usuario") != null){
-            usuarioDestinatarioIntent = (Usuario) getIntent().getSerializableExtra("usuario");
-            recuperarDadosFirebaseUser(usuarioDestinatarioIntent.getName(), usuarioDestinatarioIntent.getFoto());
+        //Recuperar nome, foto via intent do usuario
+        Bundle bundle = getIntent().getExtras();
 
+        if (bundle != null){
+
+            if( bundle.containsKey("usuario")){
+
+                usuarioDestinatarioIntent = (Usuario) bundle.getSerializable("usuario");
+                recuperarDadosFirebaseUser(usuarioDestinatarioIntent.getName(), usuarioDestinatarioIntent.getFoto());
+                //recuperando usuario atual base64
+
+                usuarioDestinatarioBase64 = Base64Costum.encodeBase64( usuarioDestinatarioIntent.getEmail() );
+
+
+            }else {
+
+                grupoRecebidoViaIntentDoConversaActivity = (Grupo) bundle.getSerializable("grupo");
+                recuperarDadosFirebaseUser( grupoRecebidoViaIntentDoConversaActivity.getNomeGrupo(), grupoRecebidoViaIntentDoConversaActivity.getFotoPerfilGrupo() );
+                usuarioDestinatarioBase64 =  grupoRecebidoViaIntentDoConversaActivity.getIdGrupo();
+
+            }
         }
+
+
 
         //Adicionando o botão Voltar na Toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //recuperando usuario atual base64
-
-        usuarioDestinatarioBase64 = Base64Costum.encodeBase64( usuarioDestinatarioIntent.getEmail() );
 
 
 
@@ -121,6 +137,7 @@ public class ChatActivity extends AppCompatActivity {
             conversa.setIdUsuarioEnvio( UsuarioFirebase.getIdentificadorUsuarioRetornoEmailBase64() );
             conversa.setIdUsuarioRecebendo( usuarioDestinatarioBase64 );
             conversa.setUsuarioExibicao( usuarioDestinatarioIntent );
+
             conversa.setUltimaMensagem( s );
 
             conversa.salvarMensagemConversa();

@@ -22,6 +22,7 @@ import com.alvesgleibson.messageappfamily.helper.Base64Costum;
 import com.alvesgleibson.messageappfamily.helper.RecyclerItemClickListener;
 import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Conversa;
+import com.alvesgleibson.messageappfamily.model.Grupo;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
 import com.google.firebase.auth.FirebaseUser;
@@ -123,15 +124,26 @@ public class ConversasFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
 
-                                //Passando dados entre telas
-                                Bundle bundle = new Bundle();
-
-                                //recuperando o usuario selecionado para enviar a outra tela
-                                Usuario passarEntreTelas = conversaList.get( position ).getUsuarioExibicao();
-
+                                Conversa conversa = conversaList.get( position );
                                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                                intent.putExtra("usuario", passarEntreTelas);
+
+
+                                if (conversa.getIsGroup().equals("true")){
+
+                                    Grupo passarEntreTelas =  conversa.getGrupo();
+                                    intent.putExtra("grupo", passarEntreTelas);
+
+                                }else{
+
+                                    //recuperando o usuario selecionado para enviar a outra tela
+                                    Usuario passarEntreTelas = conversa.getUsuarioExibicao();
+                                    intent.putExtra("usuario", passarEntreTelas);
+
+                                }
+
                                 startActivity( intent );
+
+
 
                             }
 

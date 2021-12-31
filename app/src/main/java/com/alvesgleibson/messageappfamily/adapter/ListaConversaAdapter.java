@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.model.Conversa;
+import com.alvesgleibson.messageappfamily.model.Grupo;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.bumptech.glide.Glide;
 
@@ -46,19 +47,38 @@ public class ListaConversaAdapter extends RecyclerView.Adapter<ListaConversaAdap
         Conversa conversa = conversaList.get( position );
         Usuario usuario = conversa.getUsuarioExibicao();
 
+        Grupo grupo = conversa.getGrupo();
 
 
         if (conversa != null){
-            holder.txtNome.setText(usuario.getName() );
-            holder.txtUltimaMensagem.setText( conversa.getUltimaMensagem() );
 
-            if (usuario.getFoto() != null && !usuario.getFoto().equals("")) {
+            if (conversa.getIsGroup().equals("true")){
 
-                Glide.with(context).load(Uri.parse(usuario.getFoto())).into(holder.imgPerfil);
+                holder.txtNome.setText( grupo.getNomeGrupo() );
+                holder.txtUltimaMensagem.setText(conversa.getUltimaMensagem());
 
-            }else holder.imgPerfil.setImageResource(R.drawable.padrao);
+                if ( grupo.getFotoPerfilGrupo() != null && !grupo.getFotoPerfilGrupo().equals("")){
+
+                    Glide.with(context).load(Uri.parse( grupo.getFotoPerfilGrupo() )).into(holder.imgPerfil);
+
+                }else holder.imgPerfil.setImageResource(R.drawable.padrao);
+
+            }else {
+                holder.txtNome.setText(usuario.getName() );
+                holder.txtUltimaMensagem.setText( conversa.getUltimaMensagem() );
+
+                if (usuario.getFoto() != null && !usuario.getFoto().equals("")) {
+
+                    Glide.with(context).load(Uri.parse(usuario.getFoto())).into(holder.imgPerfil);
+
+                }else holder.imgPerfil.setImageResource(R.drawable.padrao);
+
+            }
+
 
         }
+
+
 
 
     }

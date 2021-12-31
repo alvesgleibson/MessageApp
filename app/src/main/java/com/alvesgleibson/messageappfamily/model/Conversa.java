@@ -19,6 +19,8 @@ public class Conversa {
         DatabaseReference databaseReference = SettingInstanceFirebase.getDatabaseReference();
         DatabaseReference databaseRefeUsuario = databaseReference.child("conversas");
 
+
+
         //Copia Usuario Enviando
         databaseRefeUsuario.child(getIdUsuarioEnvio()).child(getIdUsuarioRecebendo()).setValue(this);
 
