@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.alvesgleibson.messageappfamily.R;
 import com.alvesgleibson.messageappfamily.adapter.ListaMembroGrupoAdapter;
+import com.alvesgleibson.messageappfamily.helper.UsuarioFirebase;
 import com.alvesgleibson.messageappfamily.model.Grupo;
 import com.alvesgleibson.messageappfamily.model.Usuario;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
@@ -42,7 +43,6 @@ public class ConfiguracaoGrupoActivity extends AppCompatActivity {
     private static final int SELECAO_GALERIA = 200;
     private StorageReference storageReference;
     private Grupo grupo;
-    private Bitmap bitmapImagens;
 
     private CircleImageView circleImageViewPerfilGrupo;
 
@@ -85,24 +85,8 @@ public class ConfiguracaoGrupoActivity extends AppCompatActivity {
 
     }
 
-    private void fabAcaoSalvarGrupo() {
 
 
-        fabConfirmarNomeImagem.setOnClickListener( view -> {
-
-            if ( !editTextNomeGrupo.getText().toString().trim().equals("")){
-
-                if (bitmapImagens != null){
-                    salvarImagemFirebase( bitmapImagens );
-                }
-
-
-            }else Toast.makeText(this, "Digite algum nome para grupo", Toast.LENGTH_SHORT).show();
-
-        });
-
-
-    }
 
     private void configurarImagemPerfilGrupo() {
 
@@ -125,7 +109,7 @@ public class ConfiguracaoGrupoActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK){
 
-            bitmapImagens = null;
+           Bitmap bitmapImagens = null;
 
             try {
                         Uri uriImagem = data.getData();
@@ -133,6 +117,7 @@ public class ConfiguracaoGrupoActivity extends AppCompatActivity {
 
                         if (bitmapImagens != null){
                             circleImageViewPerfilGrupo.setImageBitmap( bitmapImagens );
+                            salvarImagemFirebase( bitmapImagens );
 
                         }
 
@@ -157,7 +142,7 @@ public class ConfiguracaoGrupoActivity extends AppCompatActivity {
         //Salvar imagem no Firebase
         StorageReference referenceImagem = storageReference
                 .child("imagens")
-                .child("perfil")
+                .child("grupos")
                 .child( grupo.getIdGrupo()+".jpeg" );
 
 
@@ -170,16 +155,35 @@ public class ConfiguracaoGrupoActivity extends AppCompatActivity {
 
             //Obtendo a Uri da imagem para atualizar a foto
             referenceImagem.getDownloadUrl().addOnCompleteListener(task -> {
-                Uri url = task.getResult();
+                String url = task.getResult().toString();
 
                 //Savar Imagem no Perfil do app
-                grupo.setFotoPerfilGrupo( url.toString() );
+                grupo.setFotoPerfilGrupo( url );
 
             });
         });
 
 
+    }
 
+
+    private void fabAcaoSalvarGrupo() {
+
+
+        fabConfirmarNomeImagem.setOnClickListener( view -> {
+
+            if ( !editTextNomeGrupo.getText().toString().trim().equals("")){
+
+                usuarioListSelecionados.add(UsuarioFirebase.getDadosUsuarioLogado());
+                grupo.setMembrosGrupo( usuarioListSelecionados );
+                grupo.setNomeGrupo( editTextNomeGrupo.getText().toString() );
+
+                grupo.salvarGrupo();
+
+
+            }else Toast.makeText(this, "Digite algum nome para grupo", Toast.LENGTH_SHORT).show();
+
+        });
 
 
     }

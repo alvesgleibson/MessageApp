@@ -1,5 +1,6 @@
 package com.alvesgleibson.messageappfamily.model;
 
+import com.alvesgleibson.messageappfamily.helper.Base64Costum;
 import com.alvesgleibson.messageappfamily.setting.SettingInstanceFirebase;
 import com.google.firebase.database.DatabaseReference;
 
@@ -14,11 +15,37 @@ public class Grupo implements Serializable {
     public Grupo() {
 
         DatabaseReference referenceDataBase = SettingInstanceFirebase.getDatabaseReference();
-        DatabaseReference databaseRefGrupo =  referenceDataBase.child( "grupos" );
-
-        setIdGrupo( databaseRefGrupo.push().getKey() );
+        setIdGrupo( referenceDataBase.push().getKey() );
 
     }
+
+    public void salvarGrupo() {
+
+        DatabaseReference referenceDataBase = SettingInstanceFirebase.getDatabaseReference();
+        DatabaseReference databaseRefGrupo =  referenceDataBase.child("grupos");
+
+        databaseRefGrupo.child( getIdGrupo() ).setValue( this );
+
+        for ( Usuario usuario: getMembrosGrupo() ){
+
+            Conversa conversa = new Conversa();
+            conversa.setIdUsuarioEnvio(Base64Costum.encodeBase64(usuario.getEmail()));
+            conversa.setIdUsuarioRecebendo(getIdGrupo());
+            conversa.setUltimaMensagem("");
+            conversa.setIsGroup("true");
+            conversa.setGrupo( this );
+
+            conversa.salvarMensagemConversa();
+
+
+        }
+
+
+
+
+    }
+
+
 
     public String getIdGrupo() {
         return idGrupo;
@@ -51,4 +78,6 @@ public class Grupo implements Serializable {
     public void setMembrosGrupo(List<Usuario> membrosGrupo) {
         this.membrosGrupo = membrosGrupo;
     }
+
+
 }

@@ -5,11 +5,13 @@ import com.google.firebase.database.DatabaseReference;
 
 public class Conversa {
 
-    private String idUsuarioEnvio, idUsuarioRecebendo, ultimaMensagem;
+    private String idUsuarioEnvio, idUsuarioRecebendo, ultimaMensagem, isGroup;
     private Usuario usuarioExibicao;
+    private Grupo grupo;
 
 
     public Conversa() {
+        this.setIsGroup("false");
     }
 
     public void salvarMensagemConversa(){
@@ -21,6 +23,22 @@ public class Conversa {
         databaseRefeUsuario.child(getIdUsuarioEnvio()).child(getIdUsuarioRecebendo()).setValue(this);
 
 
+    }
+
+    public String getIsGroup() {
+        return isGroup;
+    }
+
+    public void setIsGroup(String isGroup) {
+        this.isGroup = isGroup;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     public Usuario getUsuarioExibicao() {
